@@ -1,0 +1,34 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import BlogList from '../../react/BlogList.jsx';
+import { client, POSTS_QUERY } from '../../react/lib/sanity.js';
+
+const SITE = 'https://nhlegal.com.vn';
+const url = `${SITE}/bai-viet`;
+
+let posts = [];
+try {
+  const data = await client.fetch(POSTS_QUERY);
+  posts = Array.isArray(data) ? data : [];
+} catch (e) {
+  posts = [];
+}
+
+const breadcrumb = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Trang chủ', item: `${SITE}/` },
+    { '@type': 'ListItem', position: 2, name: 'Tin tức', item: url },
+  ],
+};
+---
+
+<BaseLayout
+  title="Tin tức & Phân tích pháp lý"
+  description="Cập nhật pháp luật mới nhất, phân tích chuyên sâu và góc nhìn thực tiễn từ đội ngũ luật sư N.H Legal — doanh nghiệp, hợp đồng, đất đai, lao động, thừa kế, hôn nhân."
+  canonical={url}
+  jsonLd={[breadcrumb]}
+>
+  <BlogList posts={posts} />
+</BaseLayout>

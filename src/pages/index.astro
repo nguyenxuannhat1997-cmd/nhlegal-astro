@@ -1,0 +1,46 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Hero from '../react/Hero.jsx';
+import PracticeAreas from '../react/PracticeAreas.jsx';
+import Trust from '../react/Trust.jsx';
+import About from '../react/About.jsx';
+import CaseStudies from '../react/CaseStudies.jsx';
+import Testimonials from '../react/Testimonials.jsx';
+import Insights from '../react/Insights.jsx';
+import AISection from '../react/AISection.jsx';
+import Process from '../react/Process.jsx';
+import Contact from '../react/Contact.jsx';
+import { client, POSTS_QUERY } from '../react/lib/sanity.js';
+
+// Fetch bài viết ở BUILD-TIME → render Insights tĩnh (zero-JS).
+// Lỗi/không có bài → [] → Insights tự ẩn.
+let posts = [];
+try {
+  const data = await client.fetch(POSTS_QUERY);
+  posts = Array.isArray(data) ? data : [];
+} catch (e) {
+  posts = [];
+}
+
+const description =
+  'N.H Legal — Công ty Luật TNHH Một Thành Viên tư vấn pháp lý chuyên sâu cho doanh nghiệp, SME và startup tại TP. Hồ Chí Minh. Dịch vụ: hợp đồng, doanh nghiệp, bất động sản, lao động, ly hôn.';
+---
+
+<BaseLayout
+  title="N.H Legal — Tư vấn pháp lý chiến lược cho SME & Startup tại TP.HCM"
+  description={description}
+  canonical="https://nhlegal.com.vn/"
+>
+  <main>
+    <Hero />
+    <PracticeAreas />
+    <Trust />
+    <About />
+    <CaseStudies />
+    <Testimonials />
+    <Insights posts={posts} />
+    <AISection />
+    <Process />
+    <Contact client:visible />
+  </main>
+</BaseLayout>

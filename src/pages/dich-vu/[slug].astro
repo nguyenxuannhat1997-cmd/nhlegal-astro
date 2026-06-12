@@ -1,0 +1,94 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ServiceDetail from '../../react/ServiceDetail.jsx';
+import { SERVICES } from '../../react/data/services.js';
+import { client, POSTS_QUERY } from '../../react/lib/sanity.js';
+
+export function getStaticPaths() {
+  // Slug BẮT BUỘC kebab-case (a-z, 0-9, gạch nối, không gạch đầu/cuối/đôi).
+  // Sai định dạng/trùng → ném lỗi → BUILD FAIL ngay. (Khai báo TRONG hàm vì
+  // Astro hoist getStaticPaths ra scope riêng.)
+  const SLUG_RE = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
+  const seen = new Set();
+  for (const s of SERVICES) {
+    if (!SLUG_RE.test(s.slug)) {
+      throw new Error(`[services] Slug sai định dạng kebab-case: "${s.slug}" (dịch vụ "${s.label}")`);
+    }
+    if (seen.has(s.slug)) {
+      throw new Error(`[services] Slug trùng lặp: "${s.slug}"`);
+    }
+    seen.add(s.slug);
+  }
+  return SERVICES.map((s) => ({
+    params: { slug: s.slug },
+    props: { service: s, others: SERVICES.filter((x) => x.slug !== s.slug) },
+  }));
+}
+
+const { service, others } = Astro.props;
+const SITE = 'https://nhlegal.com.vn';
+const url = `${SITE}/dich-vu/${service.slug}`;
+
+// Bài viết liên quan: lọc theo category === slug (build-time). Chưa có → ẩn mục.
+let relatedPosts = [];
+try {
+  const all = await client.fetch(POSTS_QUERY);
+  relatedPosts = (Array.isArray(all) ? all : [])
+    .filter((p) => p.category === service.slug)
+    .slice(0, 3);
+} catch (e) {
+  relatedPosts = [];
+}
+
+const serviceSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Service',
+  serviceType: service.label,
+  name: service.label,
+  description: service.seoDesc,
+  provider: { '@id': `${SITE}/#organization` },
+  areaServed: { '@type': 'Country', name: 'Việt Nam' },
+  url,
+  hasOfferCatalog: {
+    '@type': 'OfferCatalog',
+    name: service.label,
+    itemListElement: service.subServices.map((name) => ({
+      '@type': 'Offer',
+      itemOffered: { '@type': 'Service', name },
+    })),
+  },
+};
+
+const breadcrumb = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Trang chủ', item: `${SITE}/` },
+    { '@type': 'ListItem', position: 2, name: 'Dịch vụ', item: `${SITE}/dich-vu` },
+    { '@type': 'ListItem', position: 3, name: service.label, item: url },
+  ],
+};
+
+// CHỈ nhúng FAQPage schema khi FAQ đã được luật sư duyệt (service.faqs != null).
+const schemas = [serviceSchema, breadcrumb];
+if (service.faqs && service.faqs.length) {
+  schemas.push({
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: service.faqs.map(({ q, a }) => ({
+      '@type': 'Question',
+      name: q,
+      acceptedAnswer: { '@type': 'Answer', text: a },
+    })),
+  });
+}
+---
+
+<BaseLayout
+  title={service.metaTitle || `${service.label} — Dịch vụ pháp lý`}
+  description={service.seoDesc}
+  canonical={url}
+  jsonLd={schemas}
+>
+  <ServiceDetail service={service} others={others} relatedPosts={relatedPosts} />
+</BaseLayout>

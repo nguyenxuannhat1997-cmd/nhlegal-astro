@@ -1,0 +1,46 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { Container } from '../react/primitives.jsx';
+import Contact from '../react/Contact.jsx';
+
+const SITE = 'https://nhlegal.com.vn';
+const url = `${SITE}/lien-he`;
+
+const breadcrumb = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Trang chủ', item: `${SITE}/` },
+    { '@type': 'ListItem', position: 2, name: 'Liên hệ', item: url },
+  ],
+};
+
+const contactPage = {
+  '@context': 'https://schema.org',
+  '@type': 'ContactPage',
+  url,
+  name: 'Liên hệ — N.H Legal',
+  about: { '@id': `${SITE}/#organization` },
+};
+---
+
+<BaseLayout
+  title="Liên hệ — Đặt lịch tư vấn pháp lý"
+  description="Liên hệ N.H Legal để đặt lịch tư vấn pháp lý. Hotline 0777 516 000, email contact@nhlegal.com.vn — văn phòng TP. Hồ Chí Minh, tư vấn 24/7."
+  canonical={url}
+  jsonLd={[breadcrumb, contactPage]}
+>
+  <main>
+    <div style="background:linear-gradient(135deg,#063E45 0%,#0A5258 55%,#0D6470 100%);padding:clamp(64px,10vw,100px) 0 clamp(40px,6vw,64px)">
+      <Container>
+        <div style="font-size:12px;letter-spacing:0.18em;text-transform:uppercase;color:rgba(255,255,255,0.4);font-family:var(--font-sans);margin-bottom:16px">Liên hệ</div>
+        <h1 style="font-family:var(--font-display);font-weight:500;font-size:clamp(32px,5vw,56px);letter-spacing:-0.02em;color:#FFFFFF;margin:0;line-height:1.1">Đặt lịch tư vấn</h1>
+        <p style="max-width:600px;margin:18px 0 0;font-size:16px;line-height:1.7;color:rgba(255,255,255,0.6);font-family:var(--font-sans)">
+          Để lại thông tin — luật sư N.H Legal sẽ liên hệ trong thời gian sớm nhất. Buổi tư vấn đầu tiên không phí, không ràng buộc.
+        </p>
+      </Container>
+    </div>
+
+    <Contact client:load />
+  </main>
+</BaseLayout>

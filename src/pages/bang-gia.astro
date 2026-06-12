@@ -1,0 +1,199 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { Container, Icon } from '../react/primitives.jsx';
+import { SERVICES, PRICING_INCLUDED, PRICING_EXCLUDED, PRICING_DISCLAIMER } from '../react/data/services.js';
+
+const SITE = 'https://nhlegal.com.vn';
+const url = `${SITE}/bang-gia`;
+
+// Gom toàn bộ mục giá công khai từ data dịch vụ (single source of truth)
+const disclosed = SERVICES.flatMap((s) => (s.pricing?.mode === 'disclosed' ? s.pricing.items : []));
+
+const intakeSteps = [
+  'Tiếp nhận thông tin hoặc mô tả sơ bộ vụ việc qua điện thoại, Zalo, email hoặc biểu mẫu liên hệ trên website.',
+  'Rà soát sơ bộ thông tin, hồ sơ ban đầu để xác định hướng xử lý phù hợp.',
+  'Đề xuất phương án giải quyết và phạm vi công việc dự kiến.',
+  'Gửi báo giá chính thức bằng văn bản.',
+  'Ký kết hợp đồng dịch vụ pháp lý và triển khai công việc.',
+];
+
+const principles = [
+  'Tính chất và mức độ phức tạp của vụ việc.',
+  'Khối lượng hồ sơ, tài liệu cần nghiên cứu.',
+  'Giá trị tài sản hoặc quyền lợi liên quan.',
+  'Thời gian và nguồn lực cần thiết để xử lý.',
+  'Yêu cầu đặc biệt về tiến độ hoặc phạm vi công việc.',
+];
+
+const commitments = [
+  'Minh bạch về chi phí và phạm vi công việc.',
+  'Bảo mật thông tin khách hàng.',
+  'Tư vấn trung thực và đúng quy định pháp luật.',
+  'Đồng hành cùng khách hàng trong suốt quá trình giải quyết vụ việc.',
+];
+
+const assessGroups = [
+  { t: 'Doanh nghiệp & Đầu tư', items: ['Tư vấn cơ cấu doanh nghiệp', 'Tranh chấp nội bộ doanh nghiệp', 'Chuyển nhượng vốn góp, cổ phần', 'Tái cấu trúc doanh nghiệp'] },
+  { t: 'Đất đai & Thừa kế', items: ['Tranh chấp đất đai', 'Tranh chấp thừa kế', 'Yêu cầu chia di sản', 'Vụ việc nhiều đồng thừa kế hoặc tài sản giá trị lớn'] },
+  { t: 'Hôn nhân & Gia đình', items: ['Ly hôn có tranh chấp tài sản', 'Ly hôn có yếu tố nước ngoài', 'Tranh chấp quyền nuôi con', 'Tranh chấp tài sản chung, tài sản riêng'] },
+  { t: 'Lao động', items: ['Tranh chấp lao động tập thể', 'Xử lý lao động quản lý cấp cao', 'Tranh chấp về bảo hiểm và chế độ lao động'] },
+  { t: 'Luật sư tham gia tố tụng', items: ['Dân sự', 'Kinh doanh thương mại', 'Lao động', 'Hôn nhân gia đình', 'Đất đai và thừa kế'] },
+];
+
+const faqs = [
+  { q: 'Chi phí trên website có phải là báo giá chính thức không?', a: 'Không. Đây chỉ là mức chi phí tham khảo để khách hàng dự trù ngân sách ban đầu.' },
+  { q: 'Sau khi ký hợp đồng có phát sinh chi phí không?', a: 'Các khoản chi phí nằm trong phạm vi công việc đã thỏa thuận sẽ được thể hiện rõ trong hợp đồng. Trường hợp phát sinh yêu cầu mới ngoài phạm vi ban đầu, N.H Legal sẽ trao đổi và thống nhất với khách hàng trước khi thực hiện.' },
+  { q: 'Tôi ở tỉnh thành khác có sử dụng dịch vụ được không?', a: 'Có. N.H Legal hỗ trợ khách hàng trên toàn quốc thông qua hình thức làm việc trực tuyến hoặc trực tiếp tùy theo tính chất vụ việc.' },
+  { q: 'N.H Legal có cung cấp báo giá bằng văn bản không?', a: 'Có. Mọi khách hàng đều được cung cấp báo giá rõ ràng về phạm vi công việc và chi phí trước khi ký kết hợp đồng dịch vụ pháp lý.' },
+];
+
+const breadcrumb = {
+  '@context': 'https://schema.org', '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Trang chủ', item: `${SITE}/` },
+    { '@type': 'ListItem', position: 2, name: 'Bảng giá', item: url },
+  ],
+};
+const faqSchema = {
+  '@context': 'https://schema.org', '@type': 'FAQPage',
+  mainEntity: faqs.map(({ q, a }) => ({ '@type': 'Question', name: q, acceptedAnswer: { '@type': 'Answer', text: a } })),
+};
+---
+
+<BaseLayout
+  title="Bảng giá dịch vụ pháp lý — Chi phí tham khảo minh bạch"
+  description="Chi phí dịch vụ pháp lý tham khảo tại N.H Legal: thành lập công ty, thay đổi ĐKDN, đăng ký nhãn hiệu, soạn/rà soát hợp đồng. Báo giá chính thức bằng văn bản sau khi đánh giá hồ sơ."
+  canonical={url}
+  jsonLd={[breadcrumb, faqSchema]}
+>
+  <main>
+    {/* Hero */}
+    <div style="background:linear-gradient(135deg,#063E45 0%,#0A5258 55%,#0D6470 100%);padding:clamp(64px,10vw,100px) 0 clamp(40px,6vw,64px)">
+      <Container>
+        <div style="font-size:12px;letter-spacing:0.18em;text-transform:uppercase;color:rgba(255,255,255,0.4);font-family:var(--font-sans);margin-bottom:16px">Minh bạch chi phí</div>
+        <h1 style="font-family:var(--font-display);font-weight:500;font-size:clamp(32px,5vw,56px);letter-spacing:-0.02em;color:#FFFFFF;margin:0;line-height:1.1">Chi phí dịch vụ pháp lý tham khảo</h1>
+        <p style="max-width:640px;margin:18px 0 0;font-size:16px;line-height:1.7;color:rgba(255,255,255,0.65);font-family:var(--font-sans)">
+          Chúng tôi công khai mức chi phí tham khảo với một số dịch vụ có quy trình chuẩn hóa để khách hàng chủ động dự trù ngân sách. Với vụ việc chuyên sâu, tranh chấp hoặc tố tụng, chi phí được xác định theo hồ sơ thực tế.
+        </p>
+      </Container>
+    </div>
+
+    {/* Bảng giá chuẩn hóa */}
+    <div style="background:#FFFFFF;padding:clamp(48px,7vw,80px) 0">
+      <Container narrow>
+        <h2 style="font-family:var(--font-display);font-weight:600;font-size:clamp(24px,3vw,32px);color:var(--nh-navy-900);margin:0 0 28px">Chi phí tham khảo — nhóm dịch vụ chuẩn hóa</h2>
+        <div style="border:1.5px solid var(--nh-line);border-radius:16px;overflow:hidden">
+          {disclosed.map((it, i) => (
+            <div style={`display:flex;justify-content:space-between;align-items:center;gap:16px;padding:18px 24px;${i < disclosed.length - 1 ? 'border-bottom:1px solid var(--nh-line);' : ''}background:${i % 2 ? '#FAFAFA' : '#FFFFFF'}`}>
+              <span style="font-family:var(--font-sans);font-weight:500;font-size:15px;color:var(--nh-navy-900)">{it.name}</span>
+              <span style="font-family:var(--font-sans);font-weight:600;font-size:15px;color:var(--nh-teal-700);white-space:nowrap">{it.price}</span>
+            </div>
+          ))}
+        </div>
+        <p style="margin-top:16px;font-size:12.5px;line-height:1.6;color:var(--fg-mute);font-family:var(--font-sans)">{PRICING_DISCLAIMER}</p>
+
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:24px;margin-top:32px">
+          <div style="background:var(--nh-teal-50);border-radius:16px;padding:28px">
+            <div style="font-family:var(--font-sans);font-weight:600;font-size:14px;color:var(--nh-teal-700);margin-bottom:14px">✔️ Phí dịch vụ đã bao gồm</div>
+            <ul style="list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:10px">
+              {PRICING_INCLUDED.map((t) => <li style="font-size:14px;line-height:1.55;color:var(--fg-2);text-align:left">{t}</li>)}
+            </ul>
+          </div>
+          <div style="background:#FAFAFA;border:1.5px solid var(--nh-line);border-radius:16px;padding:28px">
+            <div style="font-family:var(--font-sans);font-weight:600;font-size:14px;color:var(--nh-gold-600);margin-bottom:14px">❌ Chưa bao gồm</div>
+            <ul style="list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:10px">
+              {PRICING_EXCLUDED.map((t) => <li style="font-size:14px;line-height:1.55;color:var(--fg-2);text-align:left">{t}</li>)}
+            </ul>
+          </div>
+        </div>
+      </Container>
+    </div>
+
+    {/* Nhóm cần đánh giá hồ sơ trước báo giá */}
+    <div style="background:var(--nh-teal-50);padding:clamp(48px,7vw,80px) 0">
+      <Container narrow>
+        <h2 style="font-family:var(--font-display);font-weight:600;font-size:clamp(24px,3vw,32px);color:var(--nh-navy-900);margin:0 0 12px">Nhóm dịch vụ cần đánh giá hồ sơ trước khi báo giá</h2>
+        <p style="margin:0 0 28px;font-size:15px;line-height:1.7;color:var(--fg-2);font-family:var(--font-sans);max-width:680px">Do tính chất đặc thù của từng vụ việc, N.H Legal cần tiếp nhận và rà soát hồ sơ trước khi đưa ra báo giá chính thức đối với các dịch vụ sau:</p>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px">
+          {assessGroups.map((g) => (
+            <div style="background:#FFFFFF;border:1.5px solid var(--nh-line);border-radius:16px;padding:24px">
+              <div style="font-family:var(--font-display);font-weight:600;font-size:18px;color:var(--nh-navy-900);margin-bottom:14px">{g.t}</div>
+              <ul style="list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:9px">
+                {g.items.map((it) => (
+                  <li style="display:flex;gap:10px;align-items:flex-start;font-size:14px;line-height:1.55;color:var(--fg-2);text-align:left">
+                    <span style="width:6px;height:6px;border-radius:999px;background:var(--nh-gold-500);flex-shrink:0;margin-top:7px"></span>{it}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </div>
+      </Container>
+    </div>
+
+    {/* Nguyên tắc tính phí + Quy trình */}
+    <div style="background:#FFFFFF;padding:clamp(48px,7vw,80px) 0">
+      <Container narrow>
+        <h2 style="font-family:var(--font-display);font-weight:600;font-size:clamp(24px,3vw,32px);color:var(--nh-navy-900);margin:0 0 24px">Nguyên tắc tính phí</h2>
+        <ul style="list-style:none;padding:0;margin:0 0 56px;display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px">
+          {principles.map((t, i) => (
+            <li style="display:flex;gap:12px;align-items:flex-start">
+              <span style="flex-shrink:0;width:24px;height:24px;border-radius:999px;background:var(--nh-teal-700);color:#fff;display:inline-flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;font-family:var(--font-sans)">{i + 1}</span>
+              <span style="font-size:14.5px;line-height:1.55;color:var(--fg-2);text-align:left">{t}</span>
+            </li>
+          ))}
+        </ul>
+
+        <h2 style="font-family:var(--font-display);font-weight:600;font-size:clamp(24px,3vw,32px);color:var(--nh-navy-900);margin:0 0 24px">Quy trình tiếp nhận & báo giá</h2>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:16px">
+          {intakeSteps.map((t, i) => (
+            <div style="background:#FAFAFA;border:1.5px solid var(--nh-line);border-radius:16px;padding:22px">
+              <div style="font-family:var(--font-display);font-style:italic;font-size:26px;color:var(--nh-gold-500);line-height:1;margin-bottom:10px">0{i + 1}</div>
+              <div style="font-size:13.5px;line-height:1.6;color:var(--fg-2);text-align:left">{t}</div>
+            </div>
+          ))}
+        </div>
+      </Container>
+    </div>
+
+    {/* FAQ */}
+    <div style="background:var(--nh-teal-50);padding:clamp(48px,7vw,80px) 0">
+      <Container narrow>
+        <h2 style="font-family:var(--font-display);font-weight:600;font-size:clamp(24px,3vw,32px);color:var(--nh-navy-900);margin:0 0 24px">Câu hỏi thường gặp về chi phí</h2>
+        {faqs.map((f) => (
+          <details class="nh-faq">
+            <summary><span class="nh-faq-q">{f.q}</span><span class="nh-faq-ic"><Icon name="chevron-down" size={14} stroke={2.5} /></span></summary>
+            <p class="nh-faq-a">{f.a}</p>
+          </details>
+        ))}
+      </Container>
+    </div>
+
+    {/* Cam kết + CTA */}
+    <div style="background:#FFFFFF;padding:clamp(48px,7vw,80px) 0">
+      <Container narrow>
+        <h2 style="font-family:var(--font-display);font-weight:600;font-size:clamp(24px,3vw,32px);color:var(--nh-navy-900);margin:0 0 12px">Cam kết của N.H Legal</h2>
+        <p style="margin:0 0 24px;font-size:15px;line-height:1.7;color:var(--fg-2);font-family:var(--font-sans);max-width:680px">Chúng tôi không cạnh tranh bằng dịch vụ giá rẻ hay cắt giảm quy trình chuyên môn. Mỗi vụ việc đều được tiếp cận bằng tinh thần trách nhiệm và giải pháp phù hợp với nhu cầu thực tế.</p>
+        <ul style="list-style:none;padding:0;margin:0 0 40px;display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px">
+          {commitments.map((t) => (
+            <li style="display:flex;gap:12px;align-items:flex-start">
+              <span style="flex-shrink:0;margin-top:2px;color:var(--nh-teal-700)"><Icon name="check-circle-2" size={18} stroke={1.8} /></span>
+              <span style="font-size:14.5px;line-height:1.55;color:var(--fg-2);text-align:left">{t}</span>
+            </li>
+          ))}
+        </ul>
+
+        <div style="background:linear-gradient(135deg,#063E45 0%,#0A5258 100%);border-radius:20px;padding:clamp(32px,5vw,48px);display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:24px">
+          <div>
+            <div style="font-family:var(--font-display);font-weight:500;font-size:clamp(20px,2.8vw,28px);color:#FFFFFF;line-height:1.2">Cần báo giá cho hồ sơ cụ thể?</div>
+            <p style="margin:10px 0 0;font-size:14px;color:rgba(255,255,255,0.55);font-family:var(--font-sans)">Mỗi vụ việc đều cần được đánh giá trước khi đưa ra phương án phù hợp.</p>
+          </div>
+          <div style="display:flex;gap:14px;flex-wrap:wrap">
+            <a href="tel:0777516000" class="nh-cta-phone"><Icon name="phone" size={15} stroke={2} /> 0777 516 000</a>
+            <a href="/#contact" style="display:inline-flex;align-items:center;gap:9px;padding:13px 24px;background:linear-gradient(180deg,#DCC089 0%,#BE9F61 50%,#A4853F 100%);color:#FFFFFF;text-shadow:0 1px 1.5px rgba(96,74,30,0.55);border-radius:999px;text-decoration:none;font-family:var(--font-sans);font-weight:600;font-size:14px;white-space:nowrap;box-shadow:0 8px 20px rgba(120,95,40,0.35)">Nhận báo giá cho hồ sơ của tôi<Icon name="arrow-right" size={15} stroke={2} /></a>
+          </div>
+        </div>
+      </Container>
+    </div>
+  </main>
+</BaseLayout>

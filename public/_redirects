@@ -1,0 +1,8 @@
+# 301 redirects — slug dịch vụ CŨ (6) → slug MỚI (7). Bảo toàn SEO.
+/dich-vu/ly-hon                 /dich-vu/hon-nhan-gia-dinh        301
+/dich-vu/hop-dong               /dich-vu/hop-dong-giao-dich       301
+/dich-vu/doanh-nghiep           /dich-vu/doanh-nghiep-dau-tu      301
+/dich-vu/lao-dong               /dich-vu/lao-dong-nhan-su         301
+/dich-vu/so-huu-tri-tue         /dich-vu/so-huu-tri-tue-nhan-hieu 301
+# bat-dong-san-thua-ke tách đôi → mặc định về Đất đai & Nhà ở
+/dich-vu/bat-dong-san-thua-ke   /dich-vu/dat-dai-nha-o            301

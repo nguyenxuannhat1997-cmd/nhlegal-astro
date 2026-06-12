@@ -1,0 +1,15 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PolicyPage from '../react/pages/PolicyPage.jsx';
+
+const url = 'https://nhlegal.com.vn/chinh-sach-bao-mat';
+---
+
+<BaseLayout
+  title="Chính sách Bảo mật"
+  description="Chính sách Bảo mật của N.H Legal — cách chúng tôi thu thập, sử dụng và bảo vệ thông tin cá nhân của bạn theo quy định pháp luật Việt Nam."
+  canonical={url}
+  noindex={true}
+>
+  <PolicyPage />
+</BaseLayout>

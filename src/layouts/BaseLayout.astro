@@ -1,0 +1,176 @@
+---
+// Self-host fonts (thay Google Fonts CDN). Weights dùng trong thiết kế:
+// Cormorant 500/600 (+italic), Inter 400/500/600.
+import '@fontsource/cormorant-garamond/500.css';
+import '@fontsource/cormorant-garamond/600.css';
+import '@fontsource/cormorant-garamond/500-italic.css';
+import '@fontsource/inter/400.css';
+import '@fontsource/inter/500.css';
+import '@fontsource/inter/600.css';
+import '../styles/global.css';
+
+import Nav from '../react/Nav.jsx';
+import Footer from '../react/Footer.jsx';
+import AIAssistant from '../react/AIAssistant.jsx';
+import { Icon } from '../react/primitives.jsx';
+
+export interface Props {
+  title: string;
+  description: string;
+  ogImage?: string;
+  ogType?: string;
+  canonical?: string;
+  noindex?: boolean;
+  jsonLd?: object[];
+}
+
+const {
+  title,
+  description,
+  ogImage = '/og-default.jpg',
+  ogType = 'website',
+  canonical = Astro.url.href,
+  noindex = false,
+  jsonLd = [],
+} = Astro.props;
+
+const SITE = 'https://nhlegal.com.vn';
+const fullTitle = title.includes('N.H Legal') ? title : `${title} — N.H Legal`;
+const ogImageAbs = ogImage.startsWith('http') ? ogImage : SITE + ogImage;
+const canonicalAbs = canonical.startsWith('http') ? canonical : SITE + canonical;
+const pathname = Astro.url.pathname;
+
+// JSON-LD tổ chức (dùng toàn site). Giờ văn phòng T2–T6 08:00–17:30;
+// tư vấn 24/7 ghi trong description. sameAs = 5 kênh MXH thật (đã xác nhận).
+// Lưu ý: KHÔNG nhúng schema Attorney/founder cho tới khi có thông tin luật sư
+// thật (số thẻ, Đoàn LS) — xem MIGRATION-TODO.md.
+const orgSchema = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': ['LegalService', 'LocalBusiness'],
+      '@id': `${SITE}/#organization`,
+      name: 'Công ty Luật TNHH Một Thành Viên N.H Legal',
+      alternateName: 'N.H Legal',
+      url: SITE,
+      logo: `${SITE}/assets/logo-nh-legal.png`,
+      image: `${SITE}/og-default.jpg`,
+      description:
+        'Tư vấn pháp lý chiến lược cho cá nhân, SME và startup tại TP. Hồ Chí Minh và toàn quốc. Hỗ trợ tư vấn 24/7.',
+      telephone: '+84777516000',
+      email: 'contact@nhlegal.com.vn',
+      address: {
+        '@type': 'PostalAddress',
+        addressLocality: 'Thành phố Hồ Chí Minh',
+        addressRegion: 'Hồ Chí Minh',
+        addressCountry: 'VN',
+      },
+      areaServed: { '@type': 'Country', name: 'Việt Nam' },
+      openingHoursSpecification: [
+        {
+          '@type': 'OpeningHoursSpecification',
+          dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
+          opens: '08:00',
+          closes: '17:30',
+        },
+      ],
+      priceRange: '$$',
+      knowsLanguage: 'vi',
+      sameAs: [
+        'https://www.facebook.com/profile.php?id=61590107501121',
+        'https://www.instagram.com/n.h_legal/',
+        'https://www.linkedin.com/in/legal-l-h-01b792413/',
+        'https://www.tiktok.com/@n.h_legal',
+        'https://www.youtube.com/channel/UCYND94KQV4WPEQQtLYWid9w',
+      ],
+    },
+    {
+      '@type': 'WebSite',
+      '@id': `${SITE}/#website`,
+      url: SITE,
+      name: 'N.H Legal',
+      inLanguage: 'vi',
+      publisher: { '@id': `${SITE}/#organization` },
+    },
+  ],
+};
+
+const allSchemas = [orgSchema, ...jsonLd];
+---
+
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/png" href="/assets/favicon-256.png" />
+    <link rel="apple-touch-icon" href="/assets/favicon-256.png" />
+    <meta name="theme-color" content="#063E45" />
+
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonicalAbs} />
+    {noindex && <meta name="robots" content="noindex, nofollow" />}
+
+    <!-- Open Graph -->
+    <meta property="og:type" content={ogType} />
+    <meta property="og:site_name" content="N.H Legal" />
+    <meta property="og:locale" content="vi_VN" />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonicalAbs} />
+    <meta property="og:image" content={ogImageAbs} />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={fullTitle} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImageAbs} />
+
+    {allSchemas.map((schema) => (
+      <script type="application/ld+json" set:html={JSON.stringify(schema)} />
+    ))}
+  </head>
+  <body>
+    <a href="#noi-dung" class="nh-skip-link">Chuyển tới nội dung</a>
+
+    <Nav client:load pathname={pathname} />
+
+    <div id="noi-dung" tabindex="-1" style="outline:none">
+      <slot />
+    </div>
+
+    <Footer />
+
+    <AIAssistant client:idle />
+
+    <!-- Zalo float — desktop (mobile dùng nút Zalo trong bar dưới) -->
+    <a class="nh-zalo-float" href="https://zalo.me/0777516000" target="_blank" rel="noopener noreferrer" aria-label="Nhắn Zalo cho N.H Legal" title="Nhắn Zalo — 0777 516 000">
+      <svg viewBox="0 0 24 24" width="26" height="26" aria-hidden="true">
+        <defs><mask id="zkfloat"><rect x="2.5" y="5.4" width="19" height="12.6" rx="3.6" fill="#fff"></rect><text x="12" y="14.4" text-anchor="middle" font-family="Inter,sans-serif" font-weight="800" font-size="7.5" letter-spacing="-0.4" fill="#000">Zalo</text></mask></defs>
+        <path d="M6.2 14.8v5.4c0 .35.36.5.6.26L10 17.9z" fill="currentColor"></path>
+        <rect x="2.5" y="5.4" width="19" height="12.6" rx="3.6" fill="currentColor" mask="url(#zkfloat)"></rect>
+      </svg>
+    </a>
+
+    <!-- Mobile contact bar (tĩnh): Gọi · Zalo · Đặt lịch -->
+    <div class="nh-mobile-bar" style="position:fixed;bottom:0;left:0;right:0;z-index:40;background:#FFFFFF;border-top:1px solid var(--nh-line);gap:10px;box-shadow:0 -4px 20px rgba(8,23,45,0.10)">
+      <a href="tel:0777516000" style="flex:1;display:inline-flex;align-items:center;justify-content:center;gap:7px;height:46px;background:var(--nh-teal-700);color:#FFFFFF;border-radius:10px;text-decoration:none;font-family:var(--font-sans);font-weight:600;font-size:13.5px">
+        <Icon name="phone" size={16} stroke={2} />
+        Gọi
+      </a>
+      <a href="https://zalo.me/0777516000" target="_blank" rel="noopener noreferrer" style="flex:1;display:inline-flex;align-items:center;justify-content:center;gap:7px;height:46px;background:#0068FF;color:#FFFFFF;border-radius:10px;text-decoration:none;font-family:var(--font-sans);font-weight:600;font-size:13.5px">
+        <svg viewBox="0 0 24 24" width="17" height="17" aria-hidden="true">
+          <defs><mask id="zkmbar"><rect x="2.5" y="5.4" width="19" height="12.6" rx="3.6" fill="#fff"></rect><text x="12" y="14.4" text-anchor="middle" font-family="Inter,sans-serif" font-weight="800" font-size="7.5" letter-spacing="-0.4" fill="#000">Zalo</text></mask></defs>
+          <path d="M6.2 14.8v5.4c0 .35.36.5.6.26L10 17.9z" fill="currentColor"></path>
+          <rect x="2.5" y="5.4" width="19" height="12.6" rx="3.6" fill="currentColor" mask="url(#zkmbar)"></rect>
+        </svg>
+        Zalo
+      </a>
+      <a href="/#contact" style="flex:1;display:inline-flex;align-items:center;justify-content:center;gap:7px;height:46px;background:var(--nh-navy-900);color:var(--nh-gold-400, #D9B36C);border-radius:10px;text-decoration:none;font-family:var(--font-sans);font-weight:600;font-size:13.5px">
+        <Icon name="calendar-check" size={16} stroke={2} />
+        Đặt lịch
+      </a>
+    </div>
+  </body>
+</html>

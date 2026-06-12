@@ -1,0 +1,62 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import BlogPost from '../../react/BlogPost.jsx';
+import { client, urlFor, POSTS_QUERY, POST_QUERY } from '../../react/lib/sanity.js';
+import '../../styles/blog-article.css';
+
+export async function getStaticPaths() {
+  let posts = [];
+  try {
+    const data = await client.fetch(POSTS_QUERY);
+    posts = Array.isArray(data) ? data : [];
+  } catch (e) {
+    posts = [];
+  }
+  return posts
+    .filter((p) => p.slug)
+    .map((p) => ({ params: { slug: p.slug } }));
+}
+
+const { slug } = Astro.params;
+const SITE = 'https://nhlegal.com.vn';
+const url = `${SITE}/bai-viet/${slug}`;
+
+const post = await client.fetch(POST_QUERY, { slug });
+
+const imgUrl = post?.coverImage
+  ? urlFor(post.coverImage).width(1200).height(630).fit('crop').auto('format').quality(75).url()
+  : (post?.coverImageUrl || `${SITE}/og-default.jpg`);
+
+const article = post && {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: post.title,
+  description: post.excerpt || post.title,
+  datePublished: post.publishedAt,
+  image: imgUrl,
+  mainEntityOfPage: url,
+  author: { '@id': `${SITE}/#organization` },
+  publisher: { '@id': `${SITE}/#organization` },
+};
+
+const breadcrumb = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Trang chủ', item: `${SITE}/` },
+    { '@type': 'ListItem', position: 2, name: 'Tin tức', item: `${SITE}/bai-viet` },
+    { '@type': 'ListItem', position: 3, name: post?.title || slug, item: url },
+  ],
+};
+---
+
+<BaseLayout
+  title={post?.title || 'Bài viết'}
+  description={post?.excerpt || `Đọc bài viết pháp lý từ N.H Legal: ${post?.title || ''}`}
+  canonical={url}
+  ogType="article"
+  ogImage={imgUrl}
+  jsonLd={article ? [article, breadcrumb] : [breadcrumb]}
+>
+  <BlogPost post={post} />
+</BaseLayout>

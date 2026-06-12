@@ -1,0 +1,58 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { Container } from '../react/primitives.jsx';
+import About from '../react/About.jsx';
+import Trust from '../react/Trust.jsx';
+import Process from '../react/Process.jsx';
+
+const SITE = 'https://nhlegal.com.vn';
+const url = `${SITE}/gioi-thieu`;
+
+const breadcrumb = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Trang chủ', item: `${SITE}/` },
+    { '@type': 'ListItem', position: 2, name: 'Giới thiệu', item: url },
+  ],
+};
+
+// LƯU Ý: CHƯA nhúng schema Attorney/Person vì chưa có thông tin luật sư thật
+// (họ tên, số thẻ LS, Đoàn LS, ảnh). Xem MIGRATION-TODO.md mục [LS-1].
+---
+
+<BaseLayout
+  title="Giới thiệu — Công ty Luật N.H Legal"
+  description="N.H Legal — Công ty Luật TNHH Một Thành Viên tại TP. Hồ Chí Minh. Tư vấn pháp lý chiến lược cho cá nhân, SME và startup với triết lý 'Uy tín kiến tạo giá trị vững bền'."
+  canonical={url}
+  jsonLd={[breadcrumb]}
+>
+  <main>
+    <div style="background:linear-gradient(135deg,#063E45 0%,#0A5258 55%,#0D6470 100%);padding:clamp(64px,10vw,100px) 0 clamp(40px,6vw,64px)">
+      <Container>
+        <div style="font-size:12px;letter-spacing:0.18em;text-transform:uppercase;color:rgba(255,255,255,0.4);font-family:var(--font-sans);margin-bottom:16px">Về chúng tôi</div>
+        <h1 style="font-family:var(--font-display);font-weight:500;font-size:clamp(32px,5vw,56px);letter-spacing:-0.02em;color:#FFFFFF;margin:0;line-height:1.1">Công ty Luật N.H Legal</h1>
+        <p style="max-width:620px;margin:18px 0 0;font-size:16px;line-height:1.7;color:rgba(255,255,255,0.6);font-family:var(--font-sans)">
+          Đối tác pháp lý đồng hành cùng cá nhân, doanh nghiệp vừa và nhỏ, startup — hoạt động toàn quốc từ TP. Hồ Chí Minh.
+        </p>
+      </Container>
+    </div>
+
+    <About />
+    <Trust />
+    <Process />
+
+    {/* MIGRATION-TODO [LS-1]: thay khối placeholder bằng thông tin luật sư thật
+        + ảnh, rồi bổ sung schema Attorney/Person (founder của #organization). */}
+    <div style="background:#FFFFFF;padding:clamp(40px,6vw,72px) 0">
+      <Container>
+        <div style="max-width:760px;margin:0 auto;text-align:center;border:1.5px dashed var(--nh-line-strong);border-radius:20px;padding:clamp(32px,5vw,48px)">
+          <h2 style="font-family:var(--font-display);font-weight:600;font-size:clamp(24px,3vw,32px);color:var(--nh-navy-900);margin:0">Đội ngũ luật sư</h2>
+          <p style="margin:16px auto 0;max-width:540px;font-size:15px;line-height:1.7;color:var(--fg-2);font-family:var(--font-sans)">
+            Thông tin chi tiết về luật sư điều hành đang được cập nhật và sẽ sớm ra mắt.
+          </p>
+        </div>
+      </Container>
+    </div>
+  </main>
+</BaseLayout>

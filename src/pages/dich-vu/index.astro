@@ -1,0 +1,71 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { Container, Icon } from '../../react/primitives.jsx';
+import { SERVICES } from '../../react/data/services.js';
+
+const SITE = 'https://nhlegal.com.vn';
+const url = `${SITE}/dich-vu`;
+
+const breadcrumb = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Trang chủ', item: `${SITE}/` },
+    { '@type': 'ListItem', position: 2, name: 'Dịch vụ', item: url },
+  ],
+};
+
+const itemList = {
+  '@context': 'https://schema.org',
+  '@type': 'ItemList',
+  itemListElement: SERVICES.map((s, i) => ({
+    '@type': 'ListItem',
+    position: i + 1,
+    name: s.label,
+    url: `${SITE}/dich-vu/${s.slug}`,
+  })),
+};
+---
+
+<BaseLayout
+  title="Dịch vụ pháp lý — Doanh nghiệp, Hợp đồng, Bất động sản, Lao động, Ly hôn, SHTT"
+  description="Các lĩnh vực tư vấn pháp lý của N.H Legal: ly hôn & gia đình, hợp đồng, bất động sản & thừa kế, doanh nghiệp, lao động & nhân sự, sở hữu trí tuệ — tại TP. Hồ Chí Minh và toàn quốc."
+  canonical={url}
+  jsonLd={[breadcrumb, itemList]}
+>
+  <main>
+    <div style="background:linear-gradient(135deg,#063E45 0%,#0A5258 55%,#0D6470 100%);padding:clamp(64px,10vw,100px) 0 clamp(48px,7vw,72px)">
+      <Container>
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:24px;flex-wrap:wrap">
+          <a href="/" class="nh-foot-contact-link" style="color:rgba(255,255,255,0.5);font-size:13px;font-family:var(--font-sans)">Trang chủ</a>
+          <Icon name="chevron-right" size={13} stroke={1.5} color="rgba(255,255,255,0.3)" />
+          <span style="color:rgba(255,255,255,0.8);font-size:13px;font-family:var(--font-sans)">Dịch vụ</span>
+        </div>
+        <div style="font-size:12px;letter-spacing:0.18em;text-transform:uppercase;color:rgba(255,255,255,0.4);font-family:var(--font-sans);margin-bottom:16px">Practice Areas</div>
+        <h1 style="font-family:var(--font-display);font-weight:500;font-size:clamp(32px,5vw,56px);letter-spacing:-0.02em;color:#FFFFFF;margin:0;line-height:1.1">Dịch vụ pháp lý</h1>
+        <p style="max-width:600px;margin:18px 0 0;font-size:16px;line-height:1.7;color:rgba(255,255,255,0.6);font-family:var(--font-sans)">
+          Sáu lĩnh vực hành nghề cốt lõi — kết hợp hiểu biết pháp lý chuyên sâu với thực tiễn kinh doanh tại Việt Nam.
+        </p>
+      </Container>
+    </div>
+
+    <div style="background:#FFFFFF;padding:clamp(48px,7vw,80px) 0">
+      <Container>
+        <div class="nh-blog-grid">
+          {SERVICES.map((s) => (
+            <a href={`/dich-vu/${s.slug}`} class="nh-other-svc-card" style="padding:28px 28px 32px">
+              <span class="nh-other-svc-ic" style="width:48px;height:48px">
+                <Icon name={s.icon} size={22} stroke={1.5} />
+              </span>
+              <span style="font-family:var(--font-display);font-weight:500;font-size:22px;color:var(--nh-navy-900);line-height:1.2;margin-top:4px">{s.label}</span>
+              <span style="font-size:14px;line-height:1.6;color:var(--fg-2);font-family:var(--font-sans);text-align:left">{s.heroDesc.slice(0, 120)}…</span>
+              <span style="display:inline-flex;align-items:center;gap:6px;font-size:13px;color:var(--nh-teal-700);font-family:var(--font-sans);font-weight:600;margin-top:4px">
+                Xem chi tiết <Icon name="arrow-right" size={13} stroke={2} />
+              </span>
+            </a>
+          ))}
+        </div>
+      </Container>
+    </div>
+  </main>
+</BaseLayout>

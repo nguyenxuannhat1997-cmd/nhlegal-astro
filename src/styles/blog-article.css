@@ -1,0 +1,261 @@
+/* ==========================================================
+   Blog Article HTML Body Styles
+   Áp dụng khi bài dùng bodyHtml (raw HTML rendering).
+   Tất cả scoped dưới .blog-html-body để tránh ảnh hưởng
+   các phần khác của trang.
+   ========================================================== */
+
+.blog-html-body {
+  font-family: var(--font-sans, 'Segoe UI', Arial, sans-serif);
+  font-size: 16px;
+  line-height: 1.8;
+  color: var(--fg-2, #333);
+}
+
+/* ── Headings ─────────────────────────────────────────── */
+.blog-html-body h2 {
+  font-family: var(--font-display, inherit);
+  font-weight: 500;
+  font-size: clamp(22px, 3vw, 30px);
+  color: var(--nh-navy-900, #0d3d4f);
+  margin: 48px 0 20px;
+  line-height: 1.2;
+  padding-bottom: 6px;
+  border-bottom: 2px solid #e0f2f2;
+  letter-spacing: -0.01em;
+}
+.blog-html-body h3 {
+  font-family: var(--font-display, inherit);
+  font-weight: 500;
+  font-size: clamp(18px, 2.4vw, 24px);
+  color: var(--nh-navy-900, #1a4f4f);
+  margin: 36px 0 16px;
+  line-height: 1.25;
+  letter-spacing: -0.005em;
+}
+.blog-html-body h4 {
+  font-family: var(--font-sans, inherit);
+  font-weight: 600;
+  font-size: 15px;
+  color: var(--nh-navy-900, #0d3d4f);
+  margin: 28px 0 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+/* ── Paragraphs & inline ──────────────────────────────── */
+.blog-html-body p {
+  margin: 0 0 20px;
+  font-size: 16px;
+  line-height: 1.8;
+  color: var(--fg-2, #444);
+  text-align: justify;
+}
+.blog-html-body a {
+  color: var(--nh-teal-700, #0d7b7b);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-color: rgba(13,123,123,0.3);
+}
+.blog-html-body a:hover { text-decoration-color: currentColor; }
+.blog-html-body strong, .blog-html-body b { font-weight: 600; color: var(--nh-navy-900, #0d3d4f); }
+.blog-html-body em, .blog-html-body i { font-style: italic; }
+
+/* ── Lists ────────────────────────────────────────────── */
+.blog-html-body ul,
+.blog-html-body ol {
+  margin: 0 0 20px;
+  padding-left: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.blog-html-body li {
+  font-size: 16px;
+  line-height: 1.75;
+  color: var(--fg-2, #444);
+}
+
+/* ── Blockquote ───────────────────────────────────────── */
+.blog-html-body blockquote {
+  margin: 32px 0;
+  padding: 20px 28px;
+  border-left: 4px solid var(--nh-teal-700, #0d7b7b);
+  background: #f0faf8;
+  border-radius: 0 14px 14px 0;
+  font-size: 17px;
+  line-height: 1.7;
+  color: var(--nh-navy-900, #0d3d4f);
+  font-style: italic;
+}
+.blog-html-body blockquote p { margin: 0 0 8px; }
+.blog-html-body blockquote p:last-child { margin: 0; }
+
+/* ── Answer box (hộp teal trái) ───────────────────────── */
+.blog-html-body .answer-box {
+  background: #f0faf8;
+  border-left: 4px solid #0d7b7b;
+  border-radius: 0 12px 12px 0;
+  padding: 18px 24px;
+  margin: 24px 0 32px;
+  font-size: 16px;
+  line-height: 1.8;
+  color: #1a1a1a;
+}
+.blog-html-body .answer-box p { margin: 0 0 10px; font-size: 15px; }
+.blog-html-body .answer-box p:last-child { margin: 0; }
+
+/* ── CTA mid (hộp vàng trái — gợi ý gọi điện) ────────── */
+.blog-html-body .cta-mid {
+  background: #fffbf0;
+  border-left: 4px solid #e6a817;
+  border-radius: 0 8px 8px 0;
+  padding: 14px 20px;
+  margin: 36px 0;
+  font-size: 15px;
+  line-height: 1.75;
+}
+.blog-html-body .cta-mid p { margin: 0; }
+
+/* ── CTA box (hộp teal đầy đủ — call to action chính) ── */
+.blog-html-body .cta-box {
+  background: linear-gradient(135deg, #f0faf8 0%, #e6f5f5 100%);
+  border: 2px solid #0d7b7b;
+  border-radius: 12px;
+  padding: 28px 32px;
+  margin: 40px 0 32px;
+  box-shadow: 0 2px 12px rgba(13,123,123,0.08);
+}
+.blog-html-body .cta-box h3 {
+  color: #0d7b7b;
+  margin-top: 0;
+  margin-bottom: 12px;
+  font-size: 1.15em;
+  font-weight: 600;
+  border-bottom: none;
+  padding-bottom: 0;
+  letter-spacing: 0;
+  text-transform: none;
+}
+.blog-html-body .cta-box ul {
+  list-style: none;
+  padding: 0;
+  margin: 12px 0;
+  gap: 4px;
+}
+.blog-html-body .cta-box ul li { padding: 4px 0; font-size: 15px; line-height: 1.75; }
+.blog-html-body .cta-box ul li::before { content: "✓ "; color: #0d7b7b; font-weight: 700; }
+.blog-html-body .cta-box .cta-contact {
+  font-size: 1.05em;
+  font-weight: 600;
+  margin-top: 16px;
+  line-height: 2;
+  color: var(--nh-navy-900, #0d3d4f);
+}
+
+/* ── Table ────────────────────────────────────────────── */
+.blog-html-body .table-responsive {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  margin: 24px 0;
+}
+.blog-html-body .table-responsive table,
+.blog-html-body table {
+  min-width: 520px;
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 15px;
+  font-family: var(--font-sans, inherit);
+}
+.blog-html-body .table-responsive th,
+.blog-html-body .table-responsive td,
+.blog-html-body th,
+.blog-html-body td {
+  padding: 11px 15px;
+  border: 1px solid #dde;
+  text-align: left;
+  vertical-align: top;
+}
+.blog-html-body .table-responsive th,
+.blog-html-body thead th,
+.blog-html-body th {
+  background: #0d7b7b;
+  color: #fff;
+  font-weight: 600;
+}
+.blog-html-body .table-responsive tbody tr:nth-child(even) td,
+.blog-html-body tbody tr:nth-child(even) td {
+  background: #f7fafa;
+}
+
+/* ── Table of Contents ────────────────────────────────── */
+.blog-html-body nav.toc,
+.blog-html-body .toc {
+  background: #f7fafa;
+  border: 1px solid #c8e6e6;
+  border-radius: 10px;
+  padding: 18px 22px;
+  margin: 28px 0 36px;
+}
+.blog-html-body .toc h4 {
+  margin: 0 0 12px;
+  font-size: 1em;
+  color: #0d7b7b;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  font-weight: 600;
+  border-bottom: none;
+  padding-bottom: 0;
+}
+.blog-html-body .toc ol {
+  margin: 0;
+  padding-left: 20px;
+  line-height: 1.9;
+  gap: 4px;
+}
+.blog-html-body .toc ol li a {
+  color: #1a4f4f;
+  text-decoration: none;
+  font-size: 0.95em;
+}
+.blog-html-body .toc ol li a:hover {
+  text-decoration: underline;
+  color: #0d7b7b;
+}
+
+/* ── E-E-A-T / author box ─────────────────────────────── */
+.blog-html-body .eeat-box {
+  background: #f5f5f5;
+  border-radius: 8px;
+  padding: 18px 22px;
+  margin-top: 48px;
+  font-size: 13.5px;
+  color: #555;
+  line-height: 1.8;
+}
+
+/* ── Images ───────────────────────────────────────────── */
+.blog-html-body figure { margin: 28px 0; }
+.blog-html-body figure img,
+.blog-html-body img {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 12px;
+}
+.blog-html-body figcaption {
+  text-align: center;
+  font-size: 13px;
+  color: #6b6b6b;
+  margin-top: 8px;
+  font-style: italic;
+}
+
+/* ── Responsive ───────────────────────────────────────── */
+@media (max-width: 640px) {
+  .blog-html-body .cta-box { padding: 20px 18px; }
+  .blog-html-body .answer-box { padding: 14px 16px; }
+  .blog-html-body .toc { padding: 14px 16px; }
+  .blog-html-body h2 { font-size: 1.3em; }
+  .blog-html-body h3 { font-size: 1.1em; }
+}

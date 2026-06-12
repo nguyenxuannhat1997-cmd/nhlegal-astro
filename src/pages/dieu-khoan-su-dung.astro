@@ -1,0 +1,15 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import TermsPage from '../react/pages/TermsPage.jsx';
+
+const url = 'https://nhlegal.com.vn/dieu-khoan-su-dung';
+---
+
+<BaseLayout
+  title="Điều khoản Sử dụng"
+  description="Điều khoản Sử dụng của N.H Legal — quy định về quyền, trách nhiệm và giới hạn khi sử dụng trang web và dịch vụ pháp lý của chúng tôi."
+  canonical={url}
+  noindex={true}
+>
+  <TermsPage />
+</BaseLayout>
