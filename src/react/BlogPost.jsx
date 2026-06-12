@@ -247,8 +247,8 @@ const BlogPost = ({ post }) => {
       {imgUrl && (
         <div style={{ background: '#0A5258' }}>
           <Container>
-            <div style={{ borderRadius: '0 0 20px 20px', overflow: 'hidden', maxHeight: 500 }}>
-              <img src={imgUrl} alt={post.title} loading="lazy" decoding="async" style={{ width: '100%', objectFit: 'cover', display: 'block', maxHeight: 500 }} />
+            <div style={{ borderRadius: '0 0 20px 20px', overflow: 'hidden' }}>
+              <img src={imgUrl} alt={post.title} loading="lazy" decoding="async" style={{ width: '100%', height: 'auto', display: 'block' }} />
             </div>
           </Container>
         </div>
