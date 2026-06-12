@@ -55,10 +55,10 @@
   color: var(--nh-teal-700, #0B6B72);
   text-decoration: underline;
   text-underline-offset: 3px;
-  text-decoration-color: rgba(11,107,114,0.3);
+  text-decoration-color: rgba(11,107,114,0.55);
 }
 .blog-html-body a:hover { text-decoration-color: currentColor; }
-.blog-html-body strong, .blog-html-body b { font-weight: 600; color: var(--nh-navy-900, #11181B); }
+.blog-html-body strong, .blog-html-body b { font-weight: 700; color: var(--nh-navy-900, #11181B); }
 .blog-html-body em, .blog-html-body i { font-style: italic; }
 
 /* ── Lists ────────────────────────────────────────────── */
@@ -78,18 +78,26 @@
 
 /* ── Blockquote — dùng làm CTA giữa bài ──────────────── */
 .blog-html-body blockquote {
-  margin: 36px 0;
-  padding: 16px 22px;
+  margin: 32px 0;
+  padding: 12px 18px;
   border-left: 4px solid #e6a817;
   background: #fffbf0;
   border-radius: 0 8px 8px 0;
-  font-size: 15px;
+  font-size: 14px;
   line-height: 1.8;
   color: var(--nh-navy-900, #11181B);
   font-style: normal;
+  cursor: pointer;
+  transition: background 0.15s;
 }
-.blog-html-body blockquote p { margin: 0 0 6px; font-size: 15px; }
+.blog-html-body blockquote:hover { background: #fff4d0; }
+.blog-html-body blockquote p { margin: 0 0 4px; font-size: 14px; }
 .blog-html-body blockquote p:last-child { margin: 0; }
+.blog-html-body blockquote a {
+  color: inherit !important;
+  text-decoration: none !important;
+  display: block;
+}
 
 /* ── Answer box (hộp teal trái) ───────────────────────── */
 .blog-html-body .answer-box {
