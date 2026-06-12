@@ -222,7 +222,7 @@
 }
 .blog-html-body .toc ol li a {
   color: #1a4f4f;
-  text-decoration: none;
+  text-decoration: none !important;
   font-size: 0.95em;
 }
 .blog-html-body .toc ol li a:hover {

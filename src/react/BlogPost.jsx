@@ -3,22 +3,29 @@ import { PortableText } from '@portabletext/react';
 import { Container, Icon } from './primitives';
 import { urlFor, getCategoryLabel, formatDate, getReadTime } from './lib/sanity';
 
-// Scope tất cả CSS selectors trong <style> block vào `.blog-html-body`
-// để không ảnh hưởng global styles và ưu tiên cao hơn generic rules.
+// Scope selector thường (không phải @-rule) vào scope.
+function scopeRules(cssText, scope) {
+  return cssText.replace(/((?:[^{}@,]|,(?=[^{}]*\{))+?)\{([^{}]*)\}/g, (_, sel, props) => {
+    const scoped = sel.trim().split(',').map(s => {
+      s = s.trim();
+      if (!s || s === 'body') return '';
+      if (s.startsWith(scope)) return s;
+      return `${scope} ${s}`;
+    }).filter(Boolean).join(', ');
+    if (!scoped) return '';
+    return `${scoped} { ${props} }`;
+  });
+}
+
+// Scope toàn bộ CSS vào scope, bao gồm @media với inner rules.
 function scopeCSS(cssText, scope) {
-  return cssText
-    .replace(/\/\*[\s\S]*?\*\//g, '')
-    .replace(/((?:[^{}@,]|,(?=[^{}]*\{))+?)\{([^{}]*)\}/g, (_, sel, props) => {
-      const scoped = sel.trim().split(',').map(s => {
-        s = s.trim();
-        if (!s) return '';
-        if (s === 'body') return ''; // bỏ body — layout do site template xử lý
-        if (s.startsWith('@') || s.startsWith(scope)) return s;
-        return `${scope} ${s}`;
-      }).filter(Boolean).join(', ');
-      if (!scoped) return ''; // bỏ rules chỉ target body
-      return `${scoped} { ${props} }`;
-    });
+  cssText = cssText.replace(/\/\*[\s\S]*?\*\//g, '');
+  // Xử lý @-rules (vd @media) trước: giữ wrapper, scope inner rules
+  cssText = cssText.replace(/@([^{]+)\{((?:[^{}]|\{[^{}]*\})*)\}/g, (_, query, inner) =>
+    `@${query}{ ${scopeRules(inner, scope)} }`
+  );
+  // Xử lý các regular rules còn lại
+  return scopeRules(cssText, scope);
 }
 
 // Trích xuất nội dung body từ file HTML đầy đủ, bỏ phần <head> và các
