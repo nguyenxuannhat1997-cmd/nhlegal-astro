@@ -224,10 +224,27 @@
   color: #1a4f4f;
   text-decoration: none !important;
   font-size: 0.95em;
+  transition: color 0.2s;
 }
 .blog-html-body .toc ol li a:hover {
-  text-decoration: underline;
+  text-decoration: underline !important;
   color: #0d7b7b;
+}
+
+/* PortableText TOC — không có .blog-html-body wrapper, dùng CSS hover */
+nav.toc a {
+  transition: color 0.2s;
+}
+nav.toc a:hover {
+  color: #0d7b7b !important;
+  text-decoration: underline !important;
+}
+
+/* ── Gạch chân số điện thoại trong blockquote CTA ────── */
+main blockquote strong,
+main blockquote b {
+  text-decoration: underline;
+  text-underline-offset: 2px;
 }
 
 /* ── E-E-A-T / author box ─────────────────────────────── */

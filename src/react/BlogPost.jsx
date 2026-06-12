@@ -163,15 +163,11 @@ const ptComponents = {
             {value.items.map((item, i) => (
               <li key={item._key || i} style={{ fontSize: 15, color: 'var(--nh-navy-900)' }}>
                 <a href={item.anchor} style={{
-                  color: 'var(--nh-navy-900)',
+                  color: '#1a4f4f',
                   textDecoration: 'none',
-                  fontSize: '0.96em',
+                  fontSize: '0.95em',
                   transition: 'color 0.2s',
-                  fontWeight: 500
-                }}
-                onMouseOver={(e) => e.target.style.color = 'var(--nh-teal-700)'}
-                onMouseOut={(e) => e.target.style.color = 'var(--nh-navy-900)'}
-                >
+                }}>
                   {item.text}
                 </a>
               </li>
@@ -244,7 +240,7 @@ const ptComponents = {
       }
       return <p style={{ margin: '0 0 20px', fontSize: 16, lineHeight: 1.8, color: 'var(--fg-2)', textAlign: 'justify' }}>{children}</p>;
     },
-    blockquote: ({ children }) => <blockquote style={{ margin: '32px 0', padding: '20px 28px', borderLeft: '4px solid var(--nh-teal-700)', background: 'var(--nh-teal-50)', borderRadius: '0 14px 14px 0', fontFamily: 'var(--font-display)', fontSize: 20, lineHeight: 1.6, color: 'var(--nh-navy-900)', fontStyle: 'italic' }}>{children}</blockquote>,
+    blockquote: ({ children }) => <blockquote style={{ margin: '32px 0', padding: '14px 20px', borderLeft: '4px solid #e6a817', background: '#fffbf0', borderRadius: '0 8px 8px 0', fontFamily: 'var(--font-sans)', fontSize: '0.98em', lineHeight: 1.75, color: '#1a1a1a', fontStyle: 'normal' }}>{children}</blockquote>,
   },
   list: {
     bullet: ({ children }) => <ul style={{ margin: '0 0 20px', paddingLeft: 24, display: 'flex', flexDirection: 'column', gap: 8 }}>{children}</ul>,
