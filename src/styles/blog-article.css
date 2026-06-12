@@ -6,7 +6,7 @@
    ========================================================== */
 
 .blog-html-body {
-  font-family: var(--font-sans, 'Inter', sans-serif);
+  font-family: 'Segoe UI', Arial, sans-serif;
   font-size: 16px;
   line-height: 1.8;
   color: var(--fg-2, #4A4F55);
@@ -14,30 +14,30 @@
 
 /* ── Headings ─────────────────────────────────────────── */
 .blog-html-body h2 {
-  font-family: var(--font-display, 'Cormorant Garamond', serif);
-  font-weight: 500;
+  font-family: 'Segoe UI', Arial, sans-serif;
+  font-weight: 600;
   font-size: clamp(22px, 3vw, 30px);
-  color: var(--nh-navy-900, #11181B);
+  color: #0d7b7b;
   margin: 48px 0 20px;
   line-height: 1.2;
   padding-bottom: 6px;
-  border-bottom: 2px solid var(--nh-teal-100, #d6ebeb);
-  letter-spacing: -0.01em;
+  border-bottom: 2px solid #e0f2f2;
+  letter-spacing: normal;
 }
 .blog-html-body h3 {
-  font-family: var(--font-display, 'Cormorant Garamond', serif);
-  font-weight: 500;
+  font-family: 'Segoe UI', Arial, sans-serif;
+  font-weight: 600;
   font-size: clamp(18px, 2.4vw, 24px);
-  color: var(--nh-navy-900, #11181B);
+  color: #1a4f4f;
   margin: 36px 0 16px;
   line-height: 1.25;
-  letter-spacing: -0.005em;
+  letter-spacing: normal;
 }
 .blog-html-body h4 {
-  font-family: var(--font-sans, 'Inter', sans-serif);
+  font-family: 'Segoe UI', Arial, sans-serif;
   font-weight: 600;
   font-size: 15px;
-  color: var(--nh-navy-900, #11181B);
+  color: #1a4f4f;
   margin: 28px 0 12px;
   text-transform: uppercase;
   letter-spacing: 0.06em;
@@ -52,10 +52,9 @@
   text-align: justify;
 }
 .blog-html-body a {
-  color: var(--nh-teal-700, #0B6B72);
-  text-decoration: underline;
+  color: #0d7b7b !important;
+  text-decoration: underline !important;
   text-underline-offset: 3px;
-  text-decoration-color: rgba(11,107,114,0.55);
 }
 .blog-html-body a:hover { text-decoration-color: currentColor; }
 .blog-html-body strong, .blog-html-body b { font-weight: 700; color: var(--nh-navy-900, #11181B); }
