@@ -76,19 +76,19 @@
   color: var(--fg-2, #444);
 }
 
-/* ── Blockquote ───────────────────────────────────────── */
+/* ── Blockquote — dùng làm CTA giữa bài ──────────────── */
 .blog-html-body blockquote {
-  margin: 32px 0;
-  padding: 20px 28px;
-  border-left: 4px solid var(--nh-teal-700, #0d7b7b);
-  background: #f0faf8;
-  border-radius: 0 14px 14px 0;
-  font-size: 17px;
-  line-height: 1.7;
-  color: var(--nh-navy-900, #0d3d4f);
-  font-style: italic;
+  margin: 36px 0;
+  padding: 16px 22px;
+  border-left: 4px solid #e6a817;
+  background: #fffbf0;
+  border-radius: 0 8px 8px 0;
+  font-size: 15px;
+  line-height: 1.8;
+  color: var(--nh-navy-900, #11181B);
+  font-style: normal;
 }
-.blog-html-body blockquote p { margin: 0 0 8px; }
+.blog-html-body blockquote p { margin: 0 0 6px; font-size: 15px; }
 .blog-html-body blockquote p:last-child { margin: 0; }
 
 /* ── Answer box (hộp teal trái) ───────────────────────── */
