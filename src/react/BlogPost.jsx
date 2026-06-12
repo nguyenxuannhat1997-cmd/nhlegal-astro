@@ -3,16 +3,38 @@ import { PortableText } from '@portabletext/react';
 import { Container, Icon } from './primitives';
 import { urlFor, getCategoryLabel, formatDate, getReadTime } from './lib/sanity';
 
+// Scope tất cả CSS selectors trong <style> block vào `.blog-html-body`
+// để không ảnh hưởng global styles và ưu tiên cao hơn generic rules.
+function scopeCSS(cssText, scope) {
+  return cssText
+    .replace(/\/\*[\s\S]*?\*\//g, '')
+    .replace(/((?:[^{}@,]|,(?=[^{}]*\{))+?)\{([^{}]*)\}/g, (_, sel, props) => {
+      const scoped = sel.trim().split(',').map(s => {
+        s = s.trim();
+        if (!s) return '';
+        if (s === 'body') return ''; // bỏ body — layout do site template xử lý
+        if (s.startsWith('@') || s.startsWith(scope)) return s;
+        return `${scope} ${s}`;
+      }).filter(Boolean).join(', ');
+      if (!scoped) return ''; // bỏ rules chỉ target body
+      return `${scoped} { ${props} }`;
+    });
+}
+
 // Trích xuất nội dung body từ file HTML đầy đủ, bỏ phần <head> và các
 // thành phần đã có sẵn trên trang (h1 hero, ảnh bìa).
 function extractBodyContent(html) {
   if (!html) return null;
-  // Lấy phần trong <body>...</body>
   const bodyMatch = html.match(/<body[^>]*>([\s\S]*)<\/body>/i);
   let c = bodyMatch ? bodyMatch[1] : html;
-  // Bỏ script và style (site dùng CSS riêng)
+  // Bỏ script
   c = c.replace(/<script\b[\s\S]*?<\/script>/gi, '');
-  c = c.replace(/<style\b[\s\S]*?<\/style>/gi, '');
+  // Giữ <style> nhưng scope tất cả selectors vào .blog-html-body
+  const scopedStyles = [];
+  c = c.replace(/<style\b[^>]*>([\s\S]*?)<\/style>/gi, (_, cssText) => {
+    scopedStyles.push(scopeCSS(cssText, '.blog-html-body'));
+    return '';
+  });
   // Bỏ h1 (đã hiển thị trong hero)
   c = c.replace(/<h1\b[^>]*>[\s\S]*?<\/h1>/i, '');
   // Bỏ figure đầu tiên chứa ảnh featured (đã hiển thị trong hero)
@@ -21,6 +43,10 @@ function extractBodyContent(html) {
   c = c.replace(/(<img\b[^>]+\bsrc=["'])(?!https?:\/\/)([^/][^"']*\.(?:webp|png|jpe?g))["']/gi,
     (_, prefix, filename) => `${prefix}https://nhlegal.com.vn/images/blog/${filename.replace(/^.*[\\/]/, '')}`
   );
+  // Prepend scoped styles nếu có
+  if (scopedStyles.length > 0) {
+    c = `<style>${scopedStyles.join('\n')}</style>\n` + c;
+  }
   return c.trim();
 }
 
