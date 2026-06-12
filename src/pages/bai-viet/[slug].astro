@@ -60,3 +60,23 @@ const breadcrumb = {
 >
   <BlogPost post={post} />
 </BaseLayout>
+
+<script>
+  // Blockquote trong bài viết = CTA → click mở Zalo
+  document.querySelectorAll('.blog-html-body blockquote').forEach(bq => {
+    bq.addEventListener('click', () => {
+      window.open('https://zalo.me/0777516000', '_blank', 'noopener,noreferrer');
+    });
+  });
+
+  // Internal links trong HTML không có /bai-viet/ prefix → tự thêm
+  const KNOWN = ['/bai-viet/', '/dich-vu/', '/lien-he', '/gioi-thieu', '/bang-gia',
+                 '/tai-lieu', '/chinh-sach', '/dieu-khoan', '/images/', '//'];
+  document.querySelectorAll('.blog-html-body a[href^="/"]').forEach(a => {
+    const href = a.getAttribute('href');
+    const isKnown = KNOWN.some(p => href.startsWith(p));
+    if (!isKnown && /^\/[a-z][a-z0-9-]+$/.test(href)) {
+      a.setAttribute('href', '/bai-viet' + href);
+    }
+  });
+</script>
