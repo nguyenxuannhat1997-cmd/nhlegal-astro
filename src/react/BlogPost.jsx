@@ -25,12 +25,22 @@ function scopeCSS(cssText, scope) {
 // thành phần đã có sẵn trên trang (h1 hero, ảnh bìa).
 function extractBodyContent(html) {
   if (!html) return null;
+  const scopedStyles = [];
+
+  // Lấy <style> từ <head> (vị trí thực tế của style block trong file HTML)
+  const headMatch = html.match(/<head[^>]*>([\s\S]*?)<\/head>/i);
+  if (headMatch) {
+    headMatch[1].replace(/<style\b[^>]*>([\s\S]*?)<\/style>/gi, (_, cssText) => {
+      scopedStyles.push(scopeCSS(cssText, '.blog-html-body'));
+    });
+  }
+
+  // Lấy nội dung <body>
   const bodyMatch = html.match(/<body[^>]*>([\s\S]*)<\/body>/i);
   let c = bodyMatch ? bodyMatch[1] : html;
   // Bỏ script
   c = c.replace(/<script\b[\s\S]*?<\/script>/gi, '');
-  // Giữ <style> nhưng scope tất cả selectors vào .blog-html-body
-  const scopedStyles = [];
+  // Bỏ <style> trong body nếu có (phòng trường hợp một số file đặt style ở body)
   c = c.replace(/<style\b[^>]*>([\s\S]*?)<\/style>/gi, (_, cssText) => {
     scopedStyles.push(scopeCSS(cssText, '.blog-html-body'));
     return '';
@@ -43,7 +53,7 @@ function extractBodyContent(html) {
   c = c.replace(/(<img\b[^>]+\bsrc=["'])(?!https?:\/\/)([^/][^"']*\.(?:webp|png|jpe?g))["']/gi,
     (_, prefix, filename) => `${prefix}https://nhlegal.com.vn/images/blog/${filename.replace(/^.*[\\/]/, '')}`
   );
-  // Prepend scoped styles nếu có
+  // Prepend scoped styles
   if (scopedStyles.length > 0) {
     c = `<style>${scopedStyles.join('\n')}</style>\n` + c;
   }
