@@ -5,6 +5,8 @@ on:
     branches: [main]
   repository_dispatch:
     types: [sanity-publish]
+  schedule:
+    - cron: '*/15 * * * *'
 
 jobs:
   deploy:
