@@ -268,6 +268,14 @@ main blockquote b {
   border-top: 1px solid #e8e8e8 !important;
   padding: 14px 0 0 !important;
   margin-top: 48px !important;
+  line-height: 1.9 !important;
+}
+/* Phải nhắm trực tiếp vào <p> vì .blog-html-body p có color/font-size trực tiếp,
+   inheritance từ parent thua direct rule dù có !important */
+.blog-html-body .eeat-box p,
+.blog-html-body .eeat-box em,
+.blog-html-body .eeat-box a,
+.blog-html-body .eeat-box br {
   font-size: 10.5px !important;
   font-style: italic !important;
   color: #bbb !important;
