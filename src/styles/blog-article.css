@@ -137,6 +137,7 @@
   padding: 28px 32px;
   margin: 40px 0 32px;
   box-shadow: 0 2px 12px rgba(11,107,114,0.08);
+  width: fit-content !important;
 }
 .blog-html-body .cta-box h3 {
   color: var(--nh-teal-700, #0B6B72);
