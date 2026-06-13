@@ -55,8 +55,13 @@
   color: #0d7b7b !important;
   text-decoration: underline !important;
   text-underline-offset: 3px;
+  transition: color 180ms ease, text-decoration-color 180ms ease;
+  cursor: pointer;
 }
-.blog-html-body a:hover { text-decoration-color: currentColor; }
+.blog-html-body a:hover {
+  color: #e6a817 !important;
+  text-decoration-color: #e6a817 !important;
+}
 .blog-html-body strong, .blog-html-body b { font-weight: 700; color: var(--nh-navy-900, #11181B); }
 .blog-html-body em, .blog-html-body i { font-style: italic; }
 
