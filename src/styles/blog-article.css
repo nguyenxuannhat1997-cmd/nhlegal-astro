@@ -261,14 +261,16 @@ main blockquote b {
 
 /* ── E-E-A-T / author box ─────────────────────────────── */
 .blog-html-body .eeat-box {
-  background: transparent;
-  border-top: 1px solid #e8e8e8;
-  padding: 14px 0 0;
-  margin-top: 48px;
-  font-size: 10.5px;
-  font-style: italic;
-  color: #bbb;
-  line-height: 1.9;
+  background: transparent !important;
+  border-radius: 0 !important;
+  border: none !important;
+  border-top: 1px solid #e8e8e8 !important;
+  padding: 14px 0 0 !important;
+  margin-top: 48px !important;
+  font-size: 10.5px !important;
+  font-style: italic !important;
+  color: #bbb !important;
+  line-height: 1.9 !important;
 }
 
 /* ── Images ───────────────────────────────────────────── */
