@@ -60,16 +60,16 @@ function extractBodyContent(html) {
   c = c.replace(/(<img\b[^>]+\bsrc=["'])(?!https?:\/\/)([^/][^"']*\.(?:webp|png|jpe?g))["']/gi,
     (_, prefix, filename) => `${prefix}https://nhlegal.com.vn/images/blog/${filename.replace(/^.*[\\/]/, '')}`
   );
-  // Số điện thoại trong .cta-contact → Zalo link
-  c = c.replace(
-    /(<p\b[^>]*cta-contact[^>]*>)([\s\S]*?)(<\/p>)/gi,
-    (_, open, content, close) => {
-      const linked = content.replace(
-        /(0\d[\d\s.]{7,12}\d)/g,
-        (phone) => `<a href="https://zalo.me/${phone.replace(/\D/g, '')}" target="_blank" rel="noopener noreferrer" class="cta-zalo-link">${phone}</a>`
-      );
-      return open + linked + close;
-    }
+  // Số điện thoại trong .cta-contact và .cta-mid → Zalo link
+  const wrapPhones = (content) => content.replace(
+    /(0\d[\d\s.]{7,12}\d)/g,
+    (phone) => `<a href="https://zalo.me/${phone.replace(/\D/g, '')}" target="_blank" rel="noopener noreferrer" class="cta-zalo-link">${phone}</a>`
+  );
+  c = c.replace(/(<p\b[^>]*cta-contact[^>]*>)([\s\S]*?)(<\/p>)/gi,
+    (_, open, content, close) => open + wrapPhones(content) + close
+  );
+  c = c.replace(/(<div\b[^>]*cta-mid[^>]*>)([\s\S]*?)(<\/div>)/gi,
+    (_, open, content, close) => open + wrapPhones(content) + close
   );
   // Prepend scoped styles
   if (scopedStyles.length > 0) {
