@@ -60,6 +60,17 @@ function extractBodyContent(html) {
   c = c.replace(/(<img\b[^>]+\bsrc=["'])(?!https?:\/\/)([^/][^"']*\.(?:webp|png|jpe?g))["']/gi,
     (_, prefix, filename) => `${prefix}https://nhlegal.com.vn/images/blog/${filename.replace(/^.*[\\/]/, '')}`
   );
+  // Số điện thoại trong .cta-contact → Zalo link
+  c = c.replace(
+    /(<p\b[^>]*cta-contact[^>]*>)([\s\S]*?)(<\/p>)/gi,
+    (_, open, content, close) => {
+      const linked = content.replace(
+        /(0\d[\d\s.]{7,12}\d)/g,
+        (phone) => `<a href="https://zalo.me/${phone.replace(/\D/g, '')}" target="_blank" rel="noopener noreferrer" class="cta-zalo-link">${phone}</a>`
+      );
+      return open + linked + close;
+    }
+  );
   // Prepend scoped styles
   if (scopedStyles.length > 0) {
     c = `<style>${scopedStyles.join('\n')}</style>\n` + c;

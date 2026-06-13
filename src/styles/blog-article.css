@@ -6,7 +6,7 @@
    ========================================================== */
 
 .blog-html-body {
-  font-family: 'Segoe UI', Arial, sans-serif;
+  font-family: "Be Vietnam Pro", sans-serif;
   font-size: 16px;
   line-height: 1.8;
   color: var(--fg-2, #4A4F55);
@@ -153,12 +153,19 @@
 .blog-html-body .cta-box ul li { padding: 4px 0; font-size: 15px; line-height: 1.75; }
 .blog-html-body .cta-box ul li::before { content: "✓ "; color: var(--nh-teal-700, #0B6B72); font-weight: 700; }
 .blog-html-body .cta-box .cta-contact {
-  font-size: 1.05em;
-  font-weight: 600;
+  font-size: 0.92em;
+  font-weight: 500;
   margin-top: 16px;
   line-height: 2;
   color: var(--nh-navy-900, #11181B);
 }
+.blog-html-body .cta-zalo-link {
+  color: #0068FF;
+  font-weight: 700;
+  text-decoration: none;
+  border-bottom: 1.5px solid #0068FF;
+}
+.blog-html-body .cta-zalo-link:hover { opacity: 0.8; }
 
 /* ── Table ────────────────────────────────────────────── */
 .blog-html-body .table-responsive {
