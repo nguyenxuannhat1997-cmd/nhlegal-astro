@@ -265,7 +265,8 @@ main blockquote b {
   border-top: 1px solid #e8e8e8;
   padding: 14px 0 0;
   margin-top: 48px;
-  font-size: 11.5px;
+  font-size: 10.5px;
+  font-style: italic;
   color: #bbb;
   line-height: 1.9;
 }
