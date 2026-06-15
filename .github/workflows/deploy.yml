@@ -25,6 +25,7 @@ jobs:
         env:
           PUBLIC_SANITY_PROJECT_ID: te8s7pep
           PUBLIC_SANITY_DATASET: production
+          PUBLIC_CHAT_API: https://chat-api.nhlegal.com.vn
 
       - name: Deploy to Cloudflare Pages
         run: npx wrangler pages deploy dist --project-name nh-legal --branch main
